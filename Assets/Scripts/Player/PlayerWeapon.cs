@@ -20,7 +20,7 @@ namespace Player
          *  UNITY FUNCTIONS
          */
 
-        private void Start()
+        private void Awake()
         {
             // Loads first child of weapon which it's his shotPoint
             _shotPoint = transform.GetChild(0);

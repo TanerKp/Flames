@@ -19,7 +19,7 @@ namespace Player
          *  UNITY FUNCTIONS
          */
 
-        private void Start()
+        private void Awake()
         {
             _playerAnimator = GetComponent<Animator>();
             _playerRigidbody2D = GetComponent<Rigidbody2D>();

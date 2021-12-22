@@ -1,51 +1,51 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Enemy;
 using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-    public int health;
-    public bool isDead = false;
+    /* PUBLIC VARIABLES */
+    public int health = 3;
+    public bool isDead;
 
-    public bool GodMode = false;
+    /* PRIVATE VARIABLES */
+    private List<GameObject> _healthBar;
 
-    [Space(10)]
-    [SerializeField] GameObject HealthBar1;
-    [SerializeField] GameObject HealthBar2;
-    [SerializeField] GameObject HealthBar3;
+    /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     *  UNITY FUNCTIONS
+     */
 
-
-    private void Start()
+    private void Awake()
     {
-        if (GodMode)
+        _healthBar = new List<GameObject>();
+
+        var healthBarCanvas = transform.GetChild(0);
+        for (var i = 0; i < 3; i++)
         {
-            health = 1000;
+            _healthBar.Add(healthBarCanvas.GetChild(i).gameObject);
         }
-        health = 4;
-        isDead = false;
     }
+
+    /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     *  PUBLIC FUNCTIONS
+     */
 
     public void TakeDamage(int damage)
     {
         health -= damage;
 
-        switch (health)
+        if (health == 0)
         {
-            case 3:
-                HealthBar1.SetActive(true);
-                HealthBar2.SetActive(true);
-                HealthBar3.SetActive(true);
-                break;
-            case 2:
-                HealthBar3.SetActive(false);
-                break;
-            case 1:
-                HealthBar2.SetActive(false);
-                break;
-            case 0:
-                isDead = true;
-                Destroy(this.gameObject);
-                break;
+            isDead = true;
+            return;
+        }
+
+        for (var i = 2; i >= health; i--)
+        {
+            _healthBar[i].SetActive(false);
+            Debug.Log($"Health: {health} / i: {i}");
         }
     }
 }

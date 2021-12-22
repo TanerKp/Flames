@@ -23,7 +23,7 @@ namespace Player
          *  UNITY FUNCTIONS
          */
 
-        private void Start()
+        private void Awake()
         {
             _audio = GetComponent<AudioSource>();
             _health = GetComponent<HealthBar>();
@@ -65,9 +65,8 @@ namespace Player
         }
 
         /* Gives player damage */
-        void DamagePlayer()
+        private void DamagePlayer()
         {
-            Console.WriteLine("CHECKED?");
             // Activates camera shake effect
             ShakeCamera();
 
@@ -79,6 +78,8 @@ namespace Player
             
             // Takes 1 hearth from his health
             _health.TakeDamage(1);
+            
+            if (_health.isDead) Destroy(this.gameObject);
         }
 
         

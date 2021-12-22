@@ -14,7 +14,7 @@ namespace Enemy
          *  UNITY FUNCTIONS
          */
 
-        private void Start()
+        private void Awake()
         {
             StartCoroutine(FlipObject());
         }
