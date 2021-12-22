@@ -32,7 +32,7 @@ public class DeadMenu : MonoBehaviour {
 
     void ActivateMenu()
     {
-        if (GameObject.Find("Player").GetComponent<HealthBar>().isDead)
+        if (!GameObject.Find("Player"))
         {
             EndMenu.SetActive(true);
             KillsValue.text = kills.ToString();

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -65,13 +62,6 @@ namespace Player
 
             // Enemy explodes after attacking player
             c.GetComponent<HealthBar>().isDead = true;
-        }
-
-        /* Checks if player has health otherwise it kills him */
-        private void CheckPlayerHealth()
-        {
-            if (!_health.isDead) return;
-            Destroy(this.gameObject);
         }
 
         /* Gives player damage */

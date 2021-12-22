@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Enemy;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace Player
 {
@@ -26,7 +23,7 @@ namespace Player
 
         private void FixedUpdate()
         {
-            transform.Translate(Vector2.up * speed * Time.deltaTime);
+            transform.Translate(Vector2.up * (speed * Time.deltaTime));
         }
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -48,13 +45,11 @@ namespace Player
                 // Hit takes damage from enemy
                 case "Enemy":
                     hit.GetComponent<HealthBar>().TakeDamage(damage);
-                    Debug.Log("HIT ENEMY");
                     break;
                 
                 // Hit reduce scale of a DeathTrap
                 case "Traps":
                     hit.GetComponent<DeathTrap>().ReduceScale();
-                    Debug.Log("HIT TRAP");
                     break;
             }
             

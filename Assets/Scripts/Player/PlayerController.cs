@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -15,7 +12,7 @@ namespace Player
         private Animator _playerAnimator;
         private Rigidbody2D _playerRigidbody2D;
         private Vector2 _playerMoveVelocity;
-        private bool _playerFacingRight = false;
+        private bool _playerFacingRight;
         private Camera _playerCamera;
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

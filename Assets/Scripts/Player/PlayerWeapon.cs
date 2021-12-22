@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 namespace Player
 {
@@ -28,7 +22,7 @@ namespace Player
 
         private void Start()
         {
-            // Loads first child of weapon which it's his shotpoint
+            // Loads first child of weapon which it's his shotPoint
             _shotPoint = transform.GetChild(0);
 
             _camera = Camera.main;

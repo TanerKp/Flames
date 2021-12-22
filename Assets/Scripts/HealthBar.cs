@@ -44,6 +44,7 @@ public class HealthBar : MonoBehaviour
                 break;
             case 0:
                 isDead = true;
+                Destroy(this.gameObject);
                 break;
         }
     }
