@@ -35,24 +35,13 @@ namespace Player
             // Looks if projectile hits something
             var myTransform = transform;
             RaycastHit2D hitInfo = Physics2D.Raycast(myTransform.position, myTransform.up, distance, whatIsSolid);
-            
             if (hitInfo.collider == null) return;
             
-            // After detecting a hit, it handles it
-            var hit = hitInfo.collider;
-            switch (hit.tag)
-            {
-                // Hit takes damage from enemy
-                case "Enemy":
-                    hit.GetComponent<HealthBar>().TakeDamage(damage);
-                    break;
-                
-                // Hit reduce scale of a DeathTrap
-                case "Traps":
-                    hit.GetComponent<DeathTrap>().ReduceScale();
-                    break;
-            }
-            
+            // Looks if object is damageable
+            var damageable = hitInfo.collider.GetComponent<IDamageable>();
+            if (damageable == null) return;
+            damageable.ApplyDamage(1);
+
             // Hit creates particles
             Instantiate(particleShot, transform.position, Quaternion.identity);
             

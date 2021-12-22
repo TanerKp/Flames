@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class DeathTrap : MonoBehaviour
+    public class DeathTrap : MonoBehaviour, IDamageable
     {
+        public int CurrentHealth { get; private set; }
+
         /* PRIVATE VARIABLES */
         private int _health = 2;
         private const float AnimationTime = 0.25f;
@@ -16,6 +18,7 @@ namespace Enemy
 
         private void Awake()
         {
+            CurrentHealth = _health;
             StartCoroutine(FlipObject());
         }
 
@@ -44,20 +47,16 @@ namespace Enemy
             }
         }
 
+        
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
          *  PUBLIC FUNCTIONS
          */
-
-        /* Reduces scale of DeathTrap if its getting hit */
-        public void ReduceScale()
+        
+        public void ApplyDamage(int damage)
         {
-            // Takes 1 health
-            _health--;
-
-            // Destroys if DeathTrap has no health anymore
-            if (_health == 0) Destroy(this.gameObject);
+            CurrentHealth -= damage;
+            if (CurrentHealth == 0) Destroy(this.gameObject);
             
-            // Reduces scale of the Deathtrap
             ChangeScale(ReduceByHit);
         }
     }

@@ -4,48 +4,31 @@ using System.Collections.Generic;
 using Enemy;
 using UnityEngine;
 
-public class HealthBar : MonoBehaviour
+public class HealthBar : MonoBehaviour, IHealthBar
 {
-    /* PUBLIC VARIABLES */
-    public int health = 3;
-    public bool isDead;
-
     /* PRIVATE VARIABLES */
-    private List<GameObject> _healthBar;
-
-    /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-     *  UNITY FUNCTIONS
-     */
-
-    private void Awake()
-    {
-        _healthBar = new List<GameObject>();
-
-        var healthBarCanvas = transform.GetChild(0);
-        for (var i = 0; i < 3; i++)
-        {
-            _healthBar.Add(healthBarCanvas.GetChild(i).gameObject);
-        }
-    }
+    public List<GameObject> healthBarObjects;
 
     /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      *  PUBLIC FUNCTIONS
      */
-
-    public void TakeDamage(int damage)
+    public void Initialize()
     {
-        health -= damage;
+        healthBarObjects = new List<GameObject>();
 
-        if (health == 0)
+        var healthBarCanvas = transform.GetChild(0);
+        for (var i = 0; i < 3; i++)
         {
-            isDead = true;
-            return;
+            healthBarObjects.Add(healthBarCanvas.GetChild(i).gameObject);
         }
+    }
 
+    public void ShowHealth(int health)
+    {
         for (var i = 2; i >= health; i--)
         {
-            _healthBar[i].SetActive(false);
-            Debug.Log($"Health: {health} / i: {i}");
+            Debug.Log($"i: {i} / Health: {health}");
+            healthBarObjects[i].SetActive(false);
         }
     }
 }

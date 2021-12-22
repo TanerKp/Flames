@@ -1,22 +1,19 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player
 {
-    public class PlayerBehavior : MonoBehaviour
+    public class PlayerBehavior : MonoBehaviour, IDamageable
     {
-        /*
-         *  Todo:
-         *  -   Create deathSound
-         */
+        public int CurrentHealth { get; private set; }
 
         /* PUBLIC VARIABLES */
+        public int playerHealth;
         public GameObject particleDeath;
         public Animator cameraAnimator;
 
         /* PRIVATE VARIABLES */
         private AudioSource _audio;
-        private HealthBar _health;
+        private IHealthBar _health;
 
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -25,64 +22,40 @@ namespace Player
 
         private void Awake()
         {
+            CurrentHealth = playerHealth;
             _audio = GetComponent<AudioSource>();
-            _health = GetComponent<HealthBar>();
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            OnCollideWithTraps(collision);
-            OnCollideWithEnemy(collision);
+            _health = GetComponent<IHealthBar>();
+            _health.Initialize();
         }
 
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-         *  PRIVATE FUNCTIONS
+         *  PUBLIC FUNCTIONS
          */
 
-        /* On collide with enemy traps */
-        private void OnCollideWithTraps(Collider2D c)
-        {
-            if (!c.CompareTag("Traps")) return;
-
-            // Takes 1 damage from player
-            DamagePlayer();
-        }
-
-        /* On collide with enemy */
-        private void OnCollideWithEnemy(Collider2D c)
-        {
-            if (!c.CompareTag("Enemy")) return;
-
-            // Only attack if enemy is in the near of the player
-            if (c.transform.position.y < transform.position.y - 0.75f)
-            {
-                DamagePlayer();
-            }
-
-            // Enemy explodes after attacking player
-            c.GetComponent<HealthBar>().isDead = true;
-        }
-
         /* Gives player damage */
-        private void DamagePlayer()
+        public void ApplyDamage(int damage)
         {
+            CurrentHealth -= damage;
+            _health.ShowHealth(CurrentHealth);
+
             // Activates camera shake effect
             ShakeCamera();
 
             // Creates particles
             Instantiate(particleDeath, transform.position, Quaternion.identity);
-            
+
             // Plays sound
             _audio.Play();
-            
-            // Takes 1 hearth from his health
-            _health.TakeDamage(1);
-            
-            if (_health.isDead) Destroy(this.gameObject);
+
+            if (CurrentHealth <= 0)
+            {
+                // DIE
+                Destroy(this.gameObject);
+            }
         }
 
-        
+
         // Todo: Export Function to a new Class for CameraActions
         void ShakeCamera()
         {
