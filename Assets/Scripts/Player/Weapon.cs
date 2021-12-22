@@ -1,41 +1,80 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Weapon : MonoBehaviour {
 
+    /* PUBLIC VARIABLES */
     public GameObject projectile;
-    public GameObject shotEffect;
-    public Transform shotPoint;
+    public GameObject particleShooting;
+    [Range(0,0.5f)]
+    public float weaponFireRate;
 
-    public int offset = 90;
+    /* PRIVATE VARIABLES */
+    private const int WeaponOffset = (-90);
+    private Camera _camera;
+    private AudioSource _audio;
+    private Transform _shotPoint;
+    private float _weaponFireTimer;
 
-    private float timeBtwShots;
-    public float startTimeBtwShots;
+    /*
+     *  UNITY FUNCTIONS
+     */
+
+    private void Start()
+    {
+        // Loads first child of weapon which it's his shotpoint
+        _shotPoint = transform.GetChild(0);
+        
+        _camera = Camera.main;
+        _audio = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
-        // Handles the weapon rotation
-        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, rotZ + offset);
+        transform.rotation = WeaponDirection();
+        
+        FireWeaponWithFireRate();
+    }
+    
+    /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     *  PRIVATE FUNCTIONS
+     */
 
-        if (timeBtwShots <= 0)
+    /* Calculates rotation for weapon to look in the mouse-direction */
+    private Quaternion WeaponDirection()
+    {
+        var difference = _camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        var rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        return Quaternion.Euler(0f, 0f, rotZ + WeaponOffset);
+    }
+
+    private void FireWeaponWithFireRate()
+    {
+        if (_weaponFireTimer <= 0)
         {
-            if (Input.GetMouseButton(0))
-            {
-                Instantiate(shotEffect, shotPoint.position, Quaternion.identity);
-                Instantiate(projectile, shotPoint.position, transform.rotation);
-                GetComponent<AudioSource>().Play();
-                timeBtwShots = startTimeBtwShots;
-            }
+            // Left Mouseclick for shooting
+            if (!Input.GetMouseButton(0)) return;
+            
+            var shotPointPosition = _shotPoint.position;
+            // Creates shooting-particles
+            Instantiate(particleShooting, shotPointPosition, Quaternion.identity);
+            // Creates projectile-prefab
+            Instantiate(projectile, shotPointPosition, transform.rotation);
+            
+            // Plays shot-audio
+            _audio.Play();
+            
+            // Resets FireRateTimer
+            _weaponFireTimer = weaponFireRate;
         }
         else
         {
-            timeBtwShots -= Time.deltaTime;
+            _weaponFireTimer -= Time.deltaTime;
         }
-
-
     }
-
 }
