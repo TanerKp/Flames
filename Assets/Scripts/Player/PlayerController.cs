@@ -48,7 +48,7 @@ namespace Player
         private Vector2 HandleMoveInput()
         {
             // Creates new Vector2 with player input
-            Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            var moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
             // Activates player-animation if player is moving
             _playerAnimator.speed = moveInput.magnitude;

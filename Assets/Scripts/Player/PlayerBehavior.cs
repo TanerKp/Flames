@@ -71,26 +71,24 @@ namespace Player
         private void CheckPlayerHealth()
         {
             if (!_health.isDead) return;
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
         /* Gives player damage */
         void DamagePlayer()
         {
+            Console.WriteLine("CHECKED?");
             // Activates camera shake effect
             ShakeCamera();
-            
-            // Takes 1 hearth from his health
-            _health.TakeDamage(1);
-            
+
             // Creates particles
             Instantiate(particleDeath, transform.position, Quaternion.identity);
             
             // Plays sound
             _audio.Play();
             
-            // Checks if play has enough health
-            CheckPlayerHealth();
+            // Takes 1 hearth from his health
+            _health.TakeDamage(1);
         }
 
         
