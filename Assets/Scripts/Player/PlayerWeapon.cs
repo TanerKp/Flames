@@ -4,10 +4,10 @@ namespace Player
 {
     public class PlayerWeapon : MonoBehaviour
     {
-        /* PUBLIC VARIABLES */
-        public GameObject projectile;
-        public GameObject particleShooting;
-        [Range(0, 0.5f)] public float weaponFireRate;
+        /* SERIALIZED VARIABLES */
+        [SerializeField] private GameObject projectile;
+        [SerializeField] private GameObject particleShooting;
+        [SerializeField] [Range(0, 0.5f)] private float weaponFireRate;
 
         /* PRIVATE VARIABLES */
         private const int WeaponOffset = (-90);

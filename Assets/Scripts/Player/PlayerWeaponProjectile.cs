@@ -1,16 +1,15 @@
-﻿using Enemy;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player
 {
     public class PlayerWeaponProjectile : MonoBehaviour
     {
-        /* PUBLIC VARIABLES */
-        public GameObject particleShot;
-        public LayerMask whatIsSolid;
-        public float speed;
-        public float distance;
-        public int damage;
+        /* SERIALIZED VARIABLES */
+        [SerializeField] private GameObject particleShot;
+        [SerializeField] private LayerMask whatIsSolid;
+        [SerializeField] private float speed;
+        [SerializeField] private float distance;
+        [SerializeField] private int damage;
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
          *  UNITY FUNCTIONS
@@ -34,13 +33,13 @@ namespace Player
         {
             // Looks if projectile hits something
             var myTransform = transform;
-            RaycastHit2D hitInfo = Physics2D.Raycast(myTransform.position, myTransform.up, distance, whatIsSolid);
+            var hitInfo = Physics2D.Raycast(myTransform.position, myTransform.up, distance, whatIsSolid);
             if (hitInfo.collider == null) return;
             
             // Looks if object is damageable
             var damageable = hitInfo.collider.GetComponent<IDamageable>();
             if (damageable == null) return;
-            damageable.ApplyDamage(1);
+            damageable.ApplyDamage(damage);
 
             // Hit creates particles
             Instantiate(particleShot, transform.position, Quaternion.identity);

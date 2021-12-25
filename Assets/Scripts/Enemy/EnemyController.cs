@@ -4,8 +4,9 @@ namespace Enemy
 {
     public class EnemyController : MonoBehaviour
     {
-        /* PUBLIC VARIABLES */
-        [Range(1, 10)] public float speed;
+        /* SERIALIZED VARIABLES */
+        [SerializeField] [Range(1, 10)] 
+        private float speed;
 
         /* PRIVATE VARIABLES */
         private GameObject _player;

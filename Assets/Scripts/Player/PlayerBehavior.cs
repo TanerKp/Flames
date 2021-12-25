@@ -6,10 +6,10 @@ namespace Player
     {
         public int CurrentHealth { get; private set; }
 
-        /* PUBLIC VARIABLES */
-        public int playerHealth;
-        public GameObject particleDeath;
-        public Animator cameraAnimator;
+        /* SERIALIZED VARIABLES */
+        [SerializeField] private int playerHealth;
+        [SerializeField] private GameObject particleDeath;
+        [SerializeField] private Animator cameraAnimator;
 
         /* PRIVATE VARIABLES */
         private AudioSource _audio;

@@ -5,8 +5,8 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        /* PUBLIC VARIABLES */
-        public float playerSpeed;
+        /* SERIALIZED VARIABLES */
+        [SerializeField] private float playerSpeed;
 
         /* PRIVATE VARIABLES */
         private Animator _playerAnimator;
