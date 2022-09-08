@@ -50,6 +50,8 @@ namespace Player
 
             if (CurrentHealth <= 0)
             {
+                GameController.Instance.EndGame();
+                
                 // DIE
                 Destroy(this.gameObject);
             }

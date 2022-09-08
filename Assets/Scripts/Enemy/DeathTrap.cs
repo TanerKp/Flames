@@ -21,6 +21,17 @@ namespace Enemy
             CurrentHealth = _health;
             StartCoroutine(FlipObject());
         }
+        
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            if (!col.CompareTag("Player")) return;
+
+            var damageable = col.GetComponent<IDamageable>();
+            if (damageable == null) return;
+            damageable.ApplyDamage(1);
+
+            Destroy(this.gameObject);
+        }
 
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

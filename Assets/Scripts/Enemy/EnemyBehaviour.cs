@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player;
+using UnityEngine;
 
 namespace Enemy
 {
@@ -36,7 +37,7 @@ namespace Enemy
             if (damageable == null) return;
             damageable.ApplyDamage(1);
 
-            Explode();
+            Explode(false);
         }
 
         
@@ -44,20 +45,25 @@ namespace Enemy
          *  PRIVATE FUNCTIONS
          */
 
-        private void Explode()
+        private void Explode(bool createDeathTrap = true)
         {
             // Get current enemy position
             _enemyPosition = transform.position;
 
             // Create DeathTrap on enemy-position
-            Instantiate(deathTrap,
-                new Vector2(_enemyPosition.x, _enemyPosition.y + OffsetDeathTrap),
-                Quaternion.identity);
-
+            if (createDeathTrap)
+            {
+                Instantiate(deathTrap,
+                    new Vector2(_enemyPosition.x, _enemyPosition.y + OffsetDeathTrap),
+                    Quaternion.identity);
+            }
+            
             // Create death-particles on enemy-position
             Instantiate(particleDeath,
                 new Vector2(_enemyPosition.x, _enemyPosition.y + OffsetDeathTrap),
                 Quaternion.identity);
+            
+            GameController.Instance.EnemyKilled();
 
             Destroy(this.gameObject);
         }

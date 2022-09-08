@@ -1,43 +1,38 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.UI;
 
-public class DeadMenu : MonoBehaviour {
+public class DeadMenu : MonoBehaviour
+{
+    /* PUBLIC VARIABLES */
+    public static DeadMenu Instance;
+
+    /* SERIALIZED VARIABLES */
+    [SerializeField] GameObject endMenu;
+    [SerializeField] Text killsValue;
 
 
-    [SerializeField] GameObject EndMenu;
-    [SerializeField] Text KillsValue;
-
-    public AudioSource audio;
-
-    public int kills;
-
-    private bool dead = false;
-
-    private void Start()
+    /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     *  UNITY FUNCTIONS
+     */
+    
+    private void Awake()
     {
-        kills = 0;
-        EndMenu.SetActive(false);
+        if (!Instance) Instance = this;
     }
 
-    private void Update()
+    
+    /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     *  PUBLIC FUNCTIONS
+     */
+    
+    public void ActivateMenu(int kills)
     {
-        if (!dead)
-        {
-            ActivateMenu();
-        }
-    }
-
-    void ActivateMenu()
-    {
-        if (!GameObject.Find("Player"))
-        {
-            EndMenu.SetActive(true);
-            KillsValue.text = kills.ToString();
-            audio.Play();
-            dead = true;
-        }
+        endMenu.SetActive(true);
+        killsValue.text = kills.ToString();
+        GetComponent<AudioSource>().Play();
     }
 }
