@@ -23,6 +23,7 @@ public class HealthBar : MonoBehaviour, IHealthBar
 
     public void ShowHealth(int health)
     {
+        if (health < 0) return;
         for (var i = 2; i >= health; i--)
         {
             healthBarObjects[i].SetActive(false);
