@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Player
 {
@@ -28,6 +29,16 @@ namespace Player
             _health.Initialize();
         }
 
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            if (!col.CompareTag("Enemy")) return;
+            if (col.GetType() != typeof(CircleCollider2D)) return;
+            
+            var damageable = col.GetComponent<IDamageable>();
+            if (damageable == null) return;
+            ApplyDamage(1);
+            damageable.ApplyDamage(3);
+        }
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
          *  PUBLIC FUNCTIONS

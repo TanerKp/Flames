@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     /* PUBLIC VARIABLES */
     public static GameController Instance;
-    public int EnemyKillsCounter { get; private set; }
+    private int enemyKillsCounter;
 
 
     /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -25,11 +25,11 @@ public class GameController : MonoBehaviour
 
     public void EnemyKilled()
     {
-        this.EnemyKillsCounter++;
+        this.enemyKillsCounter++;
     }
 
     public void EndGame()
     {
-        DeadMenu.Instance.ActivateMenu(EnemyKillsCounter);
+        DeadMenu.Instance.ActivateMenu(enemyKillsCounter);
     }
 }

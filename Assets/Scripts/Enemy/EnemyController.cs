@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Enemy
 {
@@ -13,6 +14,8 @@ namespace Enemy
         private Transform _enemy;
         private float _lastPosition;
         private bool _facingRight;
+        private SpriteRenderer _spriteRenderer;
+        private Canvas _canvasChildren;
 
 
         /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -22,6 +25,8 @@ namespace Enemy
         private void Start()
         {
             _player = GameObject.FindGameObjectWithTag("Player");
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _canvasChildren = GetComponentInChildren<Canvas>();
         }
 
         private void FixedUpdate()
@@ -49,6 +54,9 @@ namespace Enemy
 
             // Handles facing-direction
             FacingDirection();
+            
+            // Handles Layer Ordering
+            LayerVisibility();
 
             // Saves the last position, to recognize the moveDirection
             _lastPosition = enemyPosition.x;
@@ -64,6 +72,16 @@ namespace Enemy
             var theScale = transform.localScale;
             theScale.x *= -1;
             _enemy.localScale = theScale;
+        }
+
+        /* Orders enemy and player in right layers */
+        private void LayerVisibility()
+        {
+            var sortingLayer = _player.transform.position.y > transform.position.y ? "Foreground" : "Background";
+
+            _spriteRenderer.sortingLayerName = sortingLayer;
+            _canvasChildren.sortingLayerName = sortingLayer;
+
         }
     }
 }

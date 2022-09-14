@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using System.Data.Common;
+using Player;
 using UnityEngine;
 
 namespace Enemy
@@ -35,9 +36,9 @@ namespace Enemy
 
             var damageable = col.GetComponent<IDamageable>();
             if (damageable == null) return;
-            damageable.ApplyDamage(1);
+            //damageable.ApplyDamage(1);
 
-            Explode(false);
+            //Explode(false);
         }
 
         
@@ -77,6 +78,12 @@ namespace Enemy
         {
             CurrentHealth -= damage;
             _health.ShowHealth(CurrentHealth);
+
+            if (damage == 3)
+            {
+                Explode(false);
+                return;
+            }
 
             if (CurrentHealth > 0) return;
 

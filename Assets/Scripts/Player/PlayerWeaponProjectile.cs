@@ -35,6 +35,8 @@ namespace Player
             var myTransform = transform;
             var hitInfo = Physics2D.Raycast(myTransform.position, myTransform.up, distance, whatIsSolid);
             if (hitInfo.collider == null) return;
+            if (hitInfo.transform.CompareTag("Player")) return;
+
             
             // Looks if object is damageable
             var damageable = hitInfo.collider.GetComponent<IDamageable>();
